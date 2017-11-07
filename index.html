@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <title>e-chong-vue</title>
+    <style>
+      body,html{
+        height: 100%;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+
+    </div>
+  </body>
+
+<script src="static/js/transformCss.js"></script>
+<script src="//unpkg.com/element-ui@2.0.3/lib/index.js"></script>
+<script>
+
+    var width = document.documentElement.clientWidth;
+    var styleNode = document.createElement('style');
+    styleNode.innerHTML = 'html{font-size:'+ width/16 +'px !important;}';
+    document.head.appendChild(styleNode);
+
+
+    document.addEventListener('touchstart',function(event){
+      event.preventDefault();
+    });
+
+    //导航条的拖动逻辑
+//    window.onload = function () {
+//      navs();
+//      changeColor();
+//      //----------------------------------
+//      //navs 文字导航条
+//      function navs(){
+//        var navsWrap = document.querySelector('#outer-wrap .find_nav .nav-wrap');
+//        var navsList = document.querySelector('#outer-wrap .find_nav .nav-wrap .nav-list');//ul列表
+//
+//        var eleX = 0;//元素起始位置
+//        var startX = 0;//手指开始位置
+//        var translateX = 0;
+//        var width = 0;
+//
+//        //加速特效
+//        var beginTime = 0;//触摸开始的时刻
+//        var endTime = 0;//触摸结束的时刻
+//        var beginDis = 0;//触摸开始的X位置
+//        var endDis = 0;//触摸结束的X位置
+//
+//        var disTime = 0;//时间差
+//        var distance = 0;//路程
+//
+//
+//        navsWrap.addEventListener('touchstart',function(event){
+//          var touch = event.changedTouches[0];
+//          eleX = transformCss(navsList,'translateX');//【读取】元素的当前位置
+//          startX = touch.clientX;
+//          //清除过渡效果
+//          navsList.style.transition = 'none';
+////				navsList.addEventListener('transitionend',fun);//这个是当过渡执行结束后执行fun函数，并不是清除过渡效果！！！
+//
+//          //加速特效的代码
+//          beginTime = new Date().getTime();//获得开始时刻的时间戳
+//          beginDis = eleX;
+//        });
+//        navsWrap.addEventListener('touchmove',function(event){
+//          var touch = event.changedTouches[0];
+//          var endX = touch.clientX;
+//          var disX = endX - startX;
+//          width = navsList.offsetWidth;//ul的宽度
+//          var minX = document.documentElement.clientWidth - width;//代表当处于右边临界点时，已经位移过的值
+//          translateX = eleX + disX;
+//
+//          //橡皮筋效果 即越来越难拖拽：
+//          if( translateX > 0){
+//            //（1）让scale 越来越小   则translateX/document.documentElement.clientWidth 越来越接近1
+//            //（2）当translateX的值是左边临界点 即0时！！！ 此时的translateX是留白区域，用户拉动不可能超出屏幕，超出部分用户无法操作 ,因此scale总是>0
+//            //（3）因此 【translateX/屏宽】 是个越来越接近1的小数
+//            var scale = 1 - translateX/document.documentElement.clientWidth;
+//
+//            //举个例子 100 * 0.8 = 80 在区间[0,100]内，增量为80，而 200 * 0.6 = 120 对比100，在区间[100,200]内，增量只有20
+//            //当增量为负增量时，translateX的值会变小
+//            translateX = translateX * scale;//负数
+//          }else if( translateX < minX ){
+////					不可以这样写，因为我们只是想获取over那一小部分区域【尚未位移的值】，而非处于右边临界点时【已经位移过的值】
+////					translateX = (document.documentElement.clientWidth - width) * scale;
+//            var over = minX - translateX; //此时的translateX已经有了【右边临界点】的位移值【非0】，0是左边的临界点的位移值
+//            var scale = 1 - over/document.documentElement.clientWidth;
+//            translateX = minX - over * scale; //over的值是负的 minX的值也是负的
+//
+//          }
+//          transformCss( navsList,'translateX',translateX );
+//        });
+//        navsWrap.addEventListener('touchend',function(event){
+//          //制造滑屏加速的效果（原理：原本只移动disX距离，现在通过触摸开始时的即时时间、速度 和 触摸结束时的即时时间、速度，从而【求得平均速度、时间】）
+//          endDis = transformCss(navsList,'translateX');//获得触摸结束时的位置
+//          endTime = new Date().getTime();//获得触摸结束时间戳
+//          disTime = endTime - beginTime;
+//          distance = endDis - beginDis;
+//          var speed = distance/disTime;
+//          var target = translateX + speed*100;//加上加速的距离speed*100 最终实现加速的错觉（由于用户手速快，程序加的这段距离有过渡效果，看去来就好像由快到慢了）
+//
+//          var bezier = '';//贝塞尔曲线参数
+//          //当用户释放鼠标左键时 将用户的非法移动还原【左、右边界】
+//          width = navsList.offsetWidth;//ul的宽度
+//          if(target > 0){
+//            target = 0;
+//            bezier = 'cubic-bezier(.09,1.61,.92,1.45)';
+//          }else if(target < document.documentElement.clientWidth - width){
+//            target = document.documentElement.clientWidth - width;
+//            bezier = 'cubic-bezier(.09,1.61,.92,1.45)';
+//          }
+//          navsList.style.transition = '2s '+bezier;//这个2s会一直存在，如果不清除，会多次作用叠加！！！ 在touchstart设置值为none清除
+//          transformCss(navsList,'translateX',target);
+//
+//
+//        });
+//      }
+//
+//      //navs 文字导航条的点击变色
+//      function changeColor(){
+//        var liNodes = document.querySelectorAll('#navsList li');
+//
+//
+//        for(var i = 0; i < liNodes.length; i++){
+//
+//          //解决误触 特地绑定了touchmove事件监听
+//          liNodes[i].addEventListener('touchmove',function(event){
+//            if(!this.isMove){//原本this对象中不存在isMove属性，值为undefined，取反就变true
+//              this.isMove = true;
+//              console.log(this.isMove)
+//            }
+//
+//          })
+//
+//          liNodes[i].addEventListener('touchend',function(event){
+////					liNodes[i].className = '';
+////					this.className = 'active';
+//            if(!this.isMove){
+//              for(var j = 0; j < liNodes.length; j++){
+//                liNodes[j].className = '';
+//              }
+//              this.className = 'active';
+//            }
+//
+//          });
+//
+//
+//        }
+//
+//      }
+//
+//      //    -------------------------------------
+//
+//
+//
+//
+//
+//
+//    }
+
+
+</script>
+
+</html>
